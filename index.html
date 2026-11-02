@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>NobarBareng – Streaming Film</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="lg" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".012 .02" numOctaves="2" seed="4" result="n"/><feGaussianBlur in="n" stdDeviation="3" result="b"/><feDisplacementMap in="SourceGraphic" in2="b" scale="34" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+    <div class="orb"><i></i><i></i></div>
+    <header class="glass lq">
+        <div class="logo" onclick="go('home')">Nobar<b>Bareng</b></div>
+        <nav><button id="nHome" onclick="go('home')">Beranda</button><button id="nRank" onclick="go('rank')">Ranking</button><button id="nHist" onclick="go('hist')">Riwayat</button><button id="nMcu" onclick="go('mcu')">Marvel</button></nav>
+        <input id="q" type="search" placeholder="Cari film…" aria-label="Cari film" oninput="view='home';render()">
+        <div id="auth" class="user"></div>
+    </header>
+    <main id="app"></main>
+
+    <div class="modal" id="mAuth">
+        <div class="box glass lq"><button class="close" onclick="hide('mAuth')" aria-label="Tutup">×</button>
+            <h3 id="sub">Masuk</h3>
+            <div class="tabs"><button class="btn pri" id="tLogin" onclick="tab('login')">Masuk</button><button class="btn" id="tReg" onclick="tab('reg')">Daftar</button></div>
+            <div id="fReg" style="display:none"><label for="rn">Nama</label><input id="rn" autocomplete="name"></div>
+            <label for="em">Email</label><input id="em" type="email" autocomplete="email">
+            <label for="pw">Kata sandi</label><input id="pw" type="password" autocomplete="current-password">
+            <div class="err" id="err"></div><button class="yb" style="width:100%;margin-top:6px" onclick="submitAuth()">Lanjut</button></div>
+    </div>
+
+    <div class="modal" id="mPlay">
+        <div class="box wide glass lq">
+            <div class="screen" id="scr" onclick="toggle()"><span class="em" id="emo"></span><span class="pl glass" id="plb">▶</span></div>
+            <div class="ctrl"><button id="pb" onclick="toggle()" aria-label="Putar/jeda">▶</button>
+                <div class="trk" id="trk" onclick="seek(event)"><i id="pf"></i></div><span id="tm"></span><button onclick="closePlayer()" aria-label="Tutup">×</button></div>
+            <div class="det">
+                <h3 id="pt"></h3>
+                <p id="pm"></p>
+                <p id="ps" style="color:var(--tx)"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="mMcu">
+        <div class="box wide glass lq mbox"><button class="close" onclick="hide('mMcu')" aria-label="Tutup">×</button>
+            <div id="mcuB"></div>
+        </div>
+    </div>
+    <div id="film-container"></div>
+    <!-- Modal Pemutar Film -->
+    <div id="mPlay" class="modal">
+        <div class="box wide">
+            <!-- Kontainer pemutar media video akan disuntikkan otomatis di sini -->
+            <div id="scr" style="width: 100%; aspect-ratio: 16/9; position: relative;"></div>
+
+            <div class="det">
+                <h3 id="pt">Judul Film</h3>
+                <p id="pm">Metadata Film</p>
+                <p id="ps">Sinopsis Film</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
