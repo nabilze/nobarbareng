@@ -1,0 +1,91 @@
+:root {
+    /* Neo-Brutalism High-Contrast Palette */
+    --bg-canvas: #f4f3ee;
+    --bg-surface: #ffffff;
+    --bg-inverted: #111111;
+    --accent-yellow: #ffe600;
+    --accent-red: #ff3b30;
+    --accent-blue: #2563eb;
+    --accent-green: #00d26a;
+    --ink-primary: #111111;
+    --ink-secondary: #333333;
+    --ink-inverse: #ffffff;
+    /* Brutalist Borders & Hard Shadows */
+    --border-thick: 3px solid #111111;
+    --border-thin: 2px solid #111111;
+    --shadow-sm: 3px 3px 0px #111111;
+    --shadow-md: 6px 6px 0px #111111;
+    --shadow-lg: 10px 10px 0px #111111;
+    /* Typography */
+    --font-display: 'Archivo Black', Impact, sans-serif;
+    --font-mono: 'Space Mono', 'Courier New', monospace;
+    --font-sans: 'Space Grotesk', system-ui, sans-serif;
+}
+
+
+/* :root {
+    /* Palet Warna Utama & Permukaan (Kontras tinggi untuk aksesibilitas) 
+    /* --bg-base: #06060b;
+    --bg-surface: #11111a;
+    --bg-elevated: rgba(24, 24, 36, 0.72);
+    /* Warna Aksen Dinamis (Berubah mengikuti poster film aktif) */
+
+
+/* --accent-primary: #f2d31b;
+--accent-primary-hover: #ffe23b;
+--accent-text: #0d0d12;
+--ambient-1: #7c2d12;
+--ambient-2: #f97316; */
+
+
+/* Tipografi & Kontras Teks (Rasio minimal 4.5:1 terhadap latar) */
+
+
+/* 
+--text-primary: #f8fafc;
+--text-secondary: #cbd5e1;
+--text-muted: #94a3b8;
+--text-danger: #fca5a5; */
+
+
+/* Glassmorphism & Border */
+
+
+/* --glass-bg: rgba(255, 255, 255, 0.06);
+--glass-bg-hover: rgba(255, 255, 255, 0.12);
+--glass-border: rgba(255, 255, 255, 0.14);
+--glass-border-focus: #f2d31b;
+--glass-blur: blur(18px) saturate(160%); */
+
+
+/* Skala Tipografi */
+
+
+/* --font-display: 'Bebas Neue',
+Impact,
+sans-serif;
+--font-sans: 'Plus Jakarta Sans',
+'Poppins',
+system-ui,
+-apple-system,
+sans-serif; */
+
+
+/* Skala Spasi & Radius */
+
+
+/* --radius-sm: 8px;
+--radius-md: 14px;
+--radius-lg: 22px;
+--radius-full: 9999px; */
+
+
+/* Transisi */
+
+
+/* 
+--ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+*/
+
+
+/*}

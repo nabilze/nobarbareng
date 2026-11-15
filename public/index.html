@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NOBARBARENG // STREAMING FILM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <a href="#app" class="skip-link">LANGSUNG KE KONTEN</a>
+
+    <header class="navbar">
+        <a href="#beranda" class="brand" onclick="event.preventDefault(); go('home')">
+            NOBARBARENG
+        </a>
+
+        <nav aria-label="Navigasi utama">
+            <button type="button" id="nHome" class="nav-link" onclick="go('home')">Beranda</button>
+            <button type="button" id="nRank" class="nav-link" onclick="go('rank')">Ditonton Terbanyak</button>
+            <button type="button" id="nWatch" class="nav-link" onclick="go('watch')">Watchlist (<span id="watchCount">0</span>)</button>
+            <button type="button" id="nHist" class="nav-link" onclick="go('hist')">Riwayat</button>
+            <button type="button" id="nAdmin" class="nav-link admin-tab" onclick="go('admin')" hidden>Panel Admin</button>
+        </nav>
+
+        <div class="search-box">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input id="q" type="search" placeholder="CARI FILM..." aria-label="Cari film" oninput="handleSearch()">
+        </div>
+
+        <div id="auth" class="user-controls"></div>
+    </header>
+
+    <main id="app" tabindex="-1"></main>
+
+    <footer class="site-footer">
+        <p>NOBARBARENG STREAMING SYSTEM // KELOMPOK 3</p>
+    </footer>
+
+    <!-- Modal Autentikasi -->
+    <div class="modal" id="mAuth" role="dialog" aria-modal="true" aria-labelledby="sub" hidden>
+        <div class="modal-card">
+            <button type="button" class="close-btn" onclick="hide('mAuth')" aria-label="Tutup">X</button>
+            <h2 id="sub" class="modal-title">Masuk Akun</h2>
+            <div class="tabs" role="tablist">
+                <button type="button" role="tab" class="tab-btn active" id="tLogin" onclick="tab('login')">Masuk</button>
+                <button type="button" role="tab" class="tab-btn" id="tReg" onclick="tab('reg')">Daftar</button>
+            </div>
+            <form onsubmit="event.preventDefault(); submitAuth()">
+                <div id="fReg" hidden>
+                    <label for="rn">Nama Lengkap</label>
+                    <input id="rn" type="text" placeholder="Nama lengkap">
+                </div>
+                <label for="em">Email</label>
+                <input id="em" type="email" placeholder="admin@nobarbareng.com" required>
+                <label for="pw">Kata Sandi</label>
+                <input id="pw" type="password" placeholder="Minimal 6 karakter" required>
+                <div class="err" id="err" role="alert"></div>
+                <button type="submit" class="btn-primary full-width">Lanjutkan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Pemutar Film + Komentar & Rating -->
+    <div class="modal" id="mPlay" role="dialog" aria-modal="true" aria-labelledby="pt" hidden>
+        <div class="modal-card wide">
+            <div id="scr" class="video-container"></div>
+            <div class="player-details">
+                <div class="player-header">
+                    <div>
+                        <h2 id="pt" class="player-title">Judul Film</h2>
+                        <p id="pm" class="player-meta"></p>
+                    </div>
+                    <button type="button" class="close-btn" onclick="closePlayer()" aria-label="Tutup">X</button>
+                </div>
+                <p id="ps" class="player-synopsis"></p>
+
+                <section class="reviews-section" aria-label="Ulasan Penonton">
+                    <h3>Ulasan & Rating Penonton</h3>
+                    <form class="review-form" onsubmit="event.preventDefault(); submitReview()">
+                        <div class="rating-picker">
+                            <span>Beri Rating Anda:</span>
+                            <div class="star-buttons">
+                                <button type="button" class="star-btn" data-val="1" onclick="setRating(1)">1 ★</button>
+                                <button type="button" class="star-btn" data-val="2" onclick="setRating(2)">2 ★</button>
+                                <button type="button" class="star-btn" data-val="3" onclick="setRating(3)">3 ★</button>
+                                <button type="button" class="star-btn" data-val="4" onclick="setRating(4)">4 ★</button>
+                                <button type="button" class="star-btn active" data-val="5" onclick="setRating(5)">5 ★</button>
+                            </div>
+                        </div>
+                        <div class="comment-input-row">
+                            <input id="reviewComment" type="text" placeholder="Tulis komentar Anda..." required>
+                            <button type="submit" class="btn-primary btn-sm">Kirim</button>
+                        </div>
+                    </form>
+                    <div id="reviewList" class="review-list"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal CRUD Film (Khusus Admin) -->
+    <div class="modal" id="mFilmForm" role="dialog" aria-modal="true" aria-labelledby="filmFormTitle" hidden>
+        <div class="modal-card">
+            <button type="button" class="close-btn" onclick="hide('mFilmForm')" aria-label="Tutup">X</button>
+            <h2 id="filmFormTitle" class="modal-title">Tambah Film Baru</h2>
+            <form onsubmit="event.preventDefault(); submitFilmCrud()">
+                <input type="hidden" id="editFilmId">
+
+                <label for="fTitle">Judul Film</label>
+                <input id="fTitle" type="text" required placeholder="Contoh: Laskar Pelangi">
+
+                <div class="form-grid-2">
+                    <div>
+                        <label for="fGenre">Genre</label>
+                        <select id="fGenre" required></select>
+                    </div>
+                    <div>
+                        <label for="fYear">Tahun Rilis</label>
+                        <input id="fYear" type="number" min="1950" max="2030" value="2025" required>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div>
+                        <label for="fDuration">Durasi (Menit)</label>
+                        <input id="fDuration" type="number" min="1" value="110" required>
+                    </div>
+                    <div>
+                        <label for="fBaseViews">Tayangan Awal</label>
+                        <input id="fBaseViews" type="number" min="0" value="0">
+                    </div>
+                </div>
+
+                <label for="fPoster">Poster Gambar (Isi URL atau Upload File)</label>
+                <div class="upload-row">
+                    <input id="fPoster" type="text" required placeholder="src/sampul/poster.jpg atau https://...">
+                    <label class="btn-secondary btn-sm upload-btn">
+                        Upload Gambar
+                        <input type="file" accept="image/*" hidden onchange="handleAdminUpload(this, 'fPoster')">
+                    </label>
+                </div>
+
+                <label for="fVideo">Video Film (URL YouTube / MP4 atau Upload File)</label>
+                <div class="upload-row">
+                    <input id="fVideo" type="text" required placeholder="https://youtube.com/... atau src/film/video.mp4">
+                    <label class="btn-secondary btn-sm upload-btn">
+                        Upload MP4
+                        <input type="file" accept="video/mp4,video/webm" hidden onchange="handleAdminUpload(this, 'fVideo')">
+                    </label>
+                </div>
+
+                <label for="fSynopsis">Sinopsis Film</label>
+                <textarea id="fSynopsis" rows="3" required placeholder="Ringkasan cerita film..."></textarea>
+
+                <div class="err" id="crudErr"></div>
+                <button type="submit" class="btn-primary full-width">Simpan Data Film</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
